@@ -2,6 +2,7 @@ from os import listdir
 from os.path import join
 
 import re
+import gensim
 
 def file_paths(data_path):
   return [join(data_path, name) for name in listdir(data_path)]
@@ -32,3 +33,6 @@ def split_data(text):
 
 def split_to_words(sentence):
     return re.findall(r"[\w']+|[.,!?;:()/\[\]]/", sentence)
+
+def word_to_vec_model(sentences):
+  return gensim.models.Word2Vec(sentences, min_count=1, workers=2)
