@@ -1,8 +1,8 @@
 from os import listdir
 from os.path import join
 
+import numpy as np
 import re
-import gensim
 
 def file_paths(data_path):
   return [join(data_path, name) for name in listdir(data_path)]
@@ -15,6 +15,7 @@ def training_data(data_path):
   dataY = []
   for text in raw_text:
     data = split_data(text)
+    # reverse order of input words to boost lstm performance
     dataX.append(split_to_words(data[0]))
     dataY.append(split_to_words(data[1]))
 
@@ -32,7 +33,16 @@ def split_data(text):
   return input_text, output_text
 
 def split_to_words(sentence):
-    return re.findall(r"[\w']+|[.,!?;:()/\[\]]/", sentence)
+  return re.findall(r"[\w]+|[^\s\w]", sentence)
+  # return re.findall(r"[\w']+|[.,!?;:()\"]", sentence)
 
-def word_to_vec_model(sentences):
-  return gensim.models.Word2Vec(sentences, min_count=1, workers=2)
+def dictionary(words):
+  words_count = len(words)
+  words_dict = {}
+
+  for i in range(0, len(words)):
+    encoded_word = np.zeros(words_count)
+    encoded_word[i] = 1
+    words_dict[words[i]] = encoded_word
+
+  return words_dict
