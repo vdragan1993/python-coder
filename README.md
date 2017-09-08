@@ -12,6 +12,6 @@ Manually collected Python source codes.
 
 # Team
 
-Milan Keča https://github.com/vonum
+<a href="https://github.com/vonum">Milan Keča</a> 
 
-Dragan Vidaković https://github.com/vdragan1993
+<a href="https://github.com/vdragan1993">Dragan Vidaković</a> 
