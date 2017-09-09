@@ -2,6 +2,7 @@ from os import listdir
 from os.path import join
 
 import numpy as np
+from keras.preprocessing.sequence import pad_sequences
 import re
 
 def file_paths(data_path):
@@ -36,13 +37,35 @@ def split_to_words(sentence):
   return re.findall(r"[\w]+|[^\s\w]", sentence)
   # return re.findall(r"[\w']+|[.,!?;:()\"]", sentence)
 
-def dictionary(words):
-  words_count = len(words)
-  words_dict = {}
+def max_sentence_length(sentences):
+  return max([len(sentence) for sentence in sentences])
 
-  for i in range(0, len(words)):
-    encoded_word = np.zeros(words_count)
-    encoded_word[i] = 1
-    words_dict[words[i]] = encoded_word
+def dictionary(vocabulary):
+  return { word:ix for ix, word in enumerate(vocabulary) }
 
-  return words_dict
+def vocabulary(words):
+  return list(set(words))
+
+def pad_seq(sequences, max_length):
+  return pad_sequences(sequences, maxlen=max_length, dtype="int32")
+
+def word_to_index(words, dictionary):
+  for i, sentence in enumerate(words):
+    for j, word in enumerate(sentence):
+      words[i][j] = dictionary[word]
+
+  return words
+
+def vectorize_sentences(sentences, max_length):
+  vectorized_sentences = []
+  for sentence in sentences:
+
+    vectorized_sentence = []
+    for word in sentence:
+      vectorized_word = np.zeros(max_length)
+      vectorized_word[word] = 1
+      vectorized_sentence.append(vectorized_word)
+
+    vectorized_sentences.append(vectorized_sentence)
+
+  return vectorized_sentences
