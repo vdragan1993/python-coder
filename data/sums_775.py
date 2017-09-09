@@ -1,0 +1,2 @@
+# print sum of 25 and 25
+print(25 + 25)
