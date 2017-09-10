@@ -92,4 +92,4 @@ for k in range(k_start, N_EPOCHS + 1):
 
     print('[INFO] Training model: epoch {}th {}/{} samples'.format(k, i, len(X)))
     auto_encoder.fit(X[i:i_end], Y[i:i_end], batch_size=BATCH_SIZE, nb_epoch=1, verbose=2)
-    auto_encoder.save_weights('/outputs/checkpoint_epoch_{}.hdf5'.format(k))
+    auto_encoder.save_weights('/output/checkpoint_epoch_{}.hdf5'.format(k))
