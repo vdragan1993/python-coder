@@ -1,6 +1,7 @@
 import numpy as np
 import argparse
 
+from prep import untar
 from prep import training_data
 from prep import dictionary
 from prep import vocabulary
@@ -12,6 +13,7 @@ from prep import vectorize_sentences
 from model import get_model
 
 ap = argparse.ArgumentParser()
+ap.add_argument('--tar_path', type=str)
 ap.add_argument('--dataset', type=str, default='./data')
 ap.add_argument('--n_epochs', type=int, default=20)
 ap.add_argument('--hidden_size', type=int, default=100)
@@ -20,11 +22,15 @@ ap.add_argument('--batch_size', type=int, default=1000)
 
 args = vars(ap.parse_args())
 
+TAR_PATH = args['tar_path']
 DATASET_PATH = args['dataset']
 N_EPOCHS = args['n_epochs']
 HIDDEN_SIZE = args['hidden_size']
 NUM_LAYERS = args['num_layers']
 BATCH_SIZE = args['batch_size']
+
+if TAR_PATH is not None:
+  untar(TAR_PATH)
 
 input_sentences, output_sentences = training_data(DATASET_PATH)
 

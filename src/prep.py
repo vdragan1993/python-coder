@@ -1,9 +1,14 @@
 from os import listdir
 from os.path import join
+import tarfile
 
 import numpy as np
 from keras.preprocessing.sequence import pad_sequences
 import re
+
+def untar(tar_path):
+  with tarfile.open(tar_path) as tf:
+    tf.extractall(path='./', members=None)
 
 def file_paths(data_path):
   return [join(data_path, name) for name in listdir(data_path)]
