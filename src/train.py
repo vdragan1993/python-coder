@@ -1,4 +1,5 @@
 import numpy as np
+import argparse
 
 from prep import training_data
 from prep import dictionary
@@ -10,12 +11,22 @@ from prep import vectorize_sentences
 
 from model import get_model
 
-N_EPOCHS = 20
-HIDDEN_SIZE = 100
-NUM_LAYERS = 3
-BATCH_SIZE = 1000
+ap = argparse.ArgumentParser()
+ap.add_argument('--dataset', type=str, default='./data')
+ap.add_argument('--n_epochs', type=int, default=20)
+ap.add_argument('--hidden_size', type=int, default=100)
+ap.add_argument('--num_layers', type=int, default=3)
+ap.add_argument('--batch_size', type=int, default=1000)
 
-input_sentences, output_sentences = training_data('../test-data')
+args = vars(ap.parse_args())
+
+DATASET_PATH = args['dataset']
+N_EPOCHS = args['n_epochs']
+HIDDEN_SIZE = args['hidden_size']
+NUM_LAYERS = args['num_layers']
+BATCH_SIZE = args['batch_size']
+
+input_sentences, output_sentences = training_data(DATASET_PATH)
 
 input_words = []
 for sentence in input_sentences:
