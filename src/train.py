@@ -48,10 +48,13 @@ output_length = max_sentence_length(output_sentences)
 
 # vocabularies (array of all distinct words in data set)
 # add "ZERO" as first element of vocabularies
+# add "UNK" as last element of vocabularies
 input_vocab = vocabulary(input_words)
-input_vocab.insert(0, "ZERO")
+input_vocab.insert(0, 'ZERO')
+input_vocab.append('UNK')
 output_vocab = vocabulary(output_words)
-output_vocab.insert(0, "ZERO")
+output_vocab.insert(0, 'ZERO')
+output_vocab.append('UNK')
 
 # create word to index dictionaries based on vocabulary(array of words)
 input_dict = dictionary(input_vocab)

@@ -57,7 +57,7 @@ def pad_seq(sequences, max_length):
 def word_to_index(words, dictionary):
   for i, sentence in enumerate(words):
     for j, word in enumerate(sentence):
-      words[i][j] = dictionary[word]
+      words[i][j] = dictionary.get(word, dictionary['UNK'])
 
   return words
 
