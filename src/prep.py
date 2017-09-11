@@ -40,6 +40,9 @@ def prep_data(dataset_path):
   Y = word_to_index(output_sentences, output_dict)
 
   # pad sequences so every sentence has the same number of words
+  X = reverse_order(X)
+
+  # reverse order of input words to boost lstm performance
   X = pad_seq(X, input_length)
   Y = pad_seq(Y, output_length)
 
@@ -66,7 +69,6 @@ def training_data(data_path):
   dataY = []
   for text in raw_text:
     data = split_data(text)
-    # reverse order of input words to boost lstm performance
     dataX.append(split_to_words(data[0]))
     dataY.append(split_to_words(data[1]))
 
@@ -119,3 +121,11 @@ def vectorize_sentences(sentences, max_length):
     vectorized_sentences.append(vectorized_sentence)
 
   return vectorized_sentences
+
+def reverse_order(sentences):
+  reversed_sentences = []
+
+  for sentence in sentences:
+    reversed_sentences.append(sentence[::-1])
+
+  return reversed_sentences
