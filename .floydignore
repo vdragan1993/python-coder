@@ -3,6 +3,9 @@
 # data set
 data/
 
+# models
+models/
+
 .git
 .eggs
 eggs
