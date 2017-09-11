@@ -6,6 +6,51 @@ import numpy as np
 from keras.preprocessing.sequence import pad_sequences
 import re
 
+def prep_data(dataset_path):
+  input_sentences, output_sentences = training_data(dataset_path)
+
+  input_words = []
+  for sentence in input_sentences:
+    input_words += sentence
+
+  output_words = []
+  for sentence in output_sentences:
+    output_words += sentence
+
+  # number of words each sentence will be padded to
+  input_length = max_sentence_length(input_sentences)
+  output_length = max_sentence_length(output_sentences)
+
+  # vocabularies (array of all distinct words in data set)
+  # add "ZERO" as first element of vocabularies
+  # add "UNK" as last element of vocabularies
+  input_vocab = vocabulary(input_words)
+  input_vocab.insert(0, 'ZERO')
+  input_vocab.append('UNK')
+  output_vocab = vocabulary(output_words)
+  output_vocab.insert(0, 'ZERO')
+  output_vocab.append('UNK')
+
+  # create word to index dictionaries based on vocabulary(array of words)
+  input_dict = dictionary(input_vocab)
+  output_dict = dictionary(output_vocab)
+
+  # transform words to be indexes in the vocabulary
+  X = word_to_index(input_sentences, input_dict)
+  Y = word_to_index(output_sentences, output_dict)
+
+  # pad sequences so every sentence has the same number of words
+  X = pad_seq(X, input_length)
+  Y = pad_seq(Y, output_length)
+
+  # vectorize output words
+  Y = vectorize_sentences(Y,len(output_vocab))
+
+  return (X, Y,
+          input_vocab, output_vocab,
+          input_dict, output_dict,
+          input_length, output_length)
+
 def untar(tar_path):
   with tarfile.open(tar_path) as tf:
     tf.extractall(path='./', members=None)
