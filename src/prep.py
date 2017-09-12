@@ -39,10 +39,10 @@ def prep_data(dataset_path, input_length, output_length):
   X = word_to_index(input_sentences, input_dict)
   Y = word_to_index(output_sentences, output_dict)
 
-  # pad sequences so every sentence has the same number of words
+  # reverse order of input words to boost lstm performance
   X = reverse_order(X)
 
-  # reverse order of input words to boost lstm performance
+  # pad sequences so every sentence has the same number of words
   X = pad_seq(X, input_length)
   Y = pad_seq(Y, output_length)
 
@@ -105,7 +105,7 @@ def vocabulary(words):
   return list(set(words))
 
 def pad_seq(sequences, max_length):
-  return pad_sequences(sequences, maxlen=max_length, dtype='int32', padding='post')
+  return pad_sequences(sequences, maxlen=max_length, dtype='int32')
 
 def word_to_index(words, dictionary):
   for i, sentence in enumerate(words):
