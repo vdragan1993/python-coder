@@ -6,8 +6,8 @@ import numpy as np
 from keras.preprocessing.sequence import pad_sequences
 import re
 
-def prep_data(dataset_path):
-  input_sentences, output_sentences = training_data(dataset_path)
+def prep_data(dataset_path, input_length, output_length):
+  input_sentences, output_sentences = training_data(dataset_path, input_length, output_length)
 
   input_words = []
   for sentence in input_sentences:
@@ -18,8 +18,8 @@ def prep_data(dataset_path):
     output_words += sentence
 
   # number of words each sentence will be padded to
-  input_length = max_sentence_length(input_sentences)
-  output_length = max_sentence_length(output_sentences)
+  # input_length = max_sentence_length(input_sentences)
+  # output_length = max_sentence_length(output_sentences)
 
   # vocabularies (array of all distinct words in data set)
   # add "ZERO" as first element of vocabularies
@@ -51,8 +51,7 @@ def prep_data(dataset_path):
 
   return (X, Y,
           input_vocab, output_vocab,
-          input_dict, output_dict,
-          input_length, output_length)
+          input_dict, output_dict)
 
 def untar(tar_path):
   with tarfile.open(tar_path) as tf:
@@ -61,7 +60,7 @@ def untar(tar_path):
 def file_paths(data_path):
   return [join(data_path, name) for name in listdir(data_path)]
 
-def training_data(data_path):
+def training_data(data_path, input_length, output_length):
   paths = file_paths(data_path)
   raw_text = [open(path, 'r').read() for path in paths]
 
@@ -69,8 +68,15 @@ def training_data(data_path):
   dataY = []
   for text in raw_text:
     data = split_data(text)
-    dataX.append(split_to_words(data[0]))
-    dataY.append(split_to_words(data[1]))
+    input_words = split_to_words(data[0])
+    output_words = split_to_words(data[1])
+
+    if ( len(input_words) > 0 and
+         len(output_words) > 0 and
+         len(input_words) <= input_length and
+         len(output_words) <= output_length ):
+      dataX.append(input_words)
+      dataY.append(output_words)
 
   return dataX, dataY
 
