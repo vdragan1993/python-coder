@@ -47,7 +47,7 @@ Y = np.array(Y)
 for k in range(k_start, EPOCHS + 1):
   # Shuffling the training data every epoch to avoid local minima
   indices = np.arange(len(X))
-  np.random.shuffle(indices)
+  # np.random.shuffle(indices)
   X = X[indices]
   Y = Y[indices]
 
