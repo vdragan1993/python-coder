@@ -52,11 +52,11 @@ for k in range(k_start, EPOCHS + 1):
   Y = Y[indices]
 
   # Training 1000 sequences at a time
-  for i in range(0, len(X), 1000):
-    if i + 1000 >= len(X):
+  for i in range(0, len(X), 32):
+    if i + 32 >= len(X):
       i_end = len(X)
     else:
-      i_end = i + 1000
+      i_end = i + 32
 
     # y_sequences = process_data(y[i:i_end], y_max_len, y_word_to_ix)
 
