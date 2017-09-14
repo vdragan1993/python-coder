@@ -1,11 +1,9 @@
 import argparse
-import numpy as np
 
 from prep import untar
 from prep import prep_data
-from prep import split_to_words
-from prep import word_to_index
-from prep import pad_seq
+
+from transform import prediction_to_code
 
 from model import get_model
 
@@ -42,27 +40,9 @@ auto_encoder = get_model(len(input_vocab),
 auto_encoder.load_weights(MODEL_WEIGHTS)
 
 sentence = 'print false if 1 appears in array [2, 2]'
-words = split_to_words(sentence)
-
-X_test = word_to_index([words], input_dict)
-X_test = pad_seq(X_test, INPUT_LENGTH)
-
-'''
-predictions = np.argmax(auto_encoder.predict(X_test), axis=2)
-sequences = []
-
-for prediction in predictions:
-  sequence = ' '.join([output_vocab(index) for index in prediction if index > 0])
-  print(sequence)
-  sequences.append(sequence)
-
-np.savetxt('test_result', sequences, fmt='%s')
-'''
-
-predictions = auto_encoder.predict(X_test)
-
-for sentence in predictions:
-  for words in sentence:
-    print(output_vocab[np.argmax(words)])
-
-print(predictions.shape)
+code = prediction_to_code(auto_encoder,
+                          sentence,
+                          input_dict,
+                          INPUT_LENGTH,
+                          output_vocab)
+print code
