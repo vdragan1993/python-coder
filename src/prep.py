@@ -105,7 +105,7 @@ def vocabulary(words):
   return list(set(words))
 
 def pad_seq(sequences, max_length):
-  return pad_sequences(sequences, maxlen=max_length, dtype='int32', padding='post')
+  return pad_sequences(sequences, maxlen=max_length, dtype='int32')
 
 def word_to_index(words, dictionary):
   for i, sentence in enumerate(words):
