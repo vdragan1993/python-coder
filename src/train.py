@@ -4,6 +4,8 @@ import argparse
 from prep import untar
 from prep import prep_data
 
+from transform import prediction_to_code
+
 from model import get_model
 
 ap = argparse.ArgumentParser()
@@ -44,6 +46,7 @@ k_start = 1
 X = np.array(X)
 Y = np.array(Y)
 
+sentence = 'print false if 1 appears in array [2, 2]'
 for k in range(k_start, EPOCHS + 1):
   # Shuffling the training data every epoch to avoid local minima
   indices = np.arange(len(X))
@@ -51,7 +54,7 @@ for k in range(k_start, EPOCHS + 1):
   X = X[indices]
   Y = Y[indices]
 
-  # Training 1000 sequences at a time
+  # Training 32 sequences at a time
   for i in range(0, len(X), 32):
     if i + 32 >= len(X):
       i_end = len(X)
@@ -63,3 +66,10 @@ for k in range(k_start, EPOCHS + 1):
     print('[INFO] Training model: epoch {}th {}/{} samples'.format(k, i, len(X)))
     auto_encoder.fit(X[i:i_end], Y[i:i_end], batch_size=BATCH_SIZE, epochs=1, verbose=2)
     auto_encoder.save_weights('/output/checkpoint_epoch_{}.hdf5'.format(k))
+
+    code = prediction_to_code(auto_encoder,
+                              sentence,
+                              input_dict,
+                              INPUT_LENGTH,
+                              output_vocab)
+    print(code)
