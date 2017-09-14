@@ -67,9 +67,9 @@ for k in range(k_start, EPOCHS + 1):
     auto_encoder.fit(X[i:i_end], Y[i:i_end], batch_size=BATCH_SIZE, epochs=1, verbose=2)
     auto_encoder.save_weights('/output/checkpoint_epoch_{}.hdf5'.format(k))
 
-    code = prediction_to_code(auto_encoder,
-                              sentence,
-                              input_dict,
-                              INPUT_LENGTH,
-                              output_vocab)
-    print(code)
+  code = prediction_to_code(auto_encoder,
+                            sentence,
+                            input_dict,
+                            INPUT_LENGTH,
+                            output_vocab)
+  print(code)
