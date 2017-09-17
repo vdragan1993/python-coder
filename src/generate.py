@@ -9,8 +9,8 @@ from evaluation import predict_codes, vec_to_words, average_bleu, average_code_c
 from model import get_model
 
 ap = argparse.ArgumentParser()
-ap.add_argument('--tar_path', type=str)
-ap.add_argument('--test_tar_path', type=str)
+ap.add_argument('--tar_path', type=str, default='./data.tar.gz')
+ap.add_argument('--test_tar_path', type=str, default='./test.tar.gz')
 ap.add_argument('--dataset', type=str, default='./data')
 ap.add_argument('--test', type=str, default='./test')
 ap.add_argument('--x_length', type=int, default=15)

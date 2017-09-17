@@ -2,6 +2,7 @@
 
 # data set
 data/
+test/
 
 # models
 models/
