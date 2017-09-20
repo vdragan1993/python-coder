@@ -8,7 +8,7 @@ def get_model(X_vocab_len, X_max_len, y_vocab_len, y_max_len, hidden_size, num_l
 
     # encoder
     model.add(Embedding(X_vocab_len, 64, input_length=X_max_len, mask_zero=True))
-    model.add(LSTM(hidden_size))
+    model.add(LSTM(hidden_size, return_sequences=True))
     model.add(LSTM(hidden_size))
     model.add(RepeatVector(y_max_len))
 
