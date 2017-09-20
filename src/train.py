@@ -1,5 +1,6 @@
-import numpy as np
+import pprint
 import argparse
+import numpy as np
 
 from prep import untar
 from prep import prep_data
@@ -81,6 +82,9 @@ for k in range(k_start, EPOCHS + 1):
                         input_dict,
                         INPUT_LENGTH,
                         output_vocab)
-
+  print '*************************************************'
+  print 'MODEL EVALUATION'
   print(average_bleu(expected_codes, codes))
   print(average_code_compilance(codes))
+  pprint.PrettyPrinter().pprint(codes)
+  print '*************************************************'
