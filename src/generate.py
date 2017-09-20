@@ -57,9 +57,9 @@ codes = predict_codes(auto_encoder,
                       INPUT_LENGTH,
                       output_vocab)
 
-print '*************************************************'
-print 'MODEL EVALUATION'
+print('*************************************************')
+print('MODEL EVALUATION')
 print(average_bleu(expected_codes, codes))
 print(average_code_compilance(codes))
 pprint.PrettyPrinter().pprint(codes)
-print '*************************************************'
+print('*************************************************')
