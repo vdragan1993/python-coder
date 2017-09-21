@@ -5,7 +5,7 @@ import numpy as np
 from prep import untar
 from prep import prep_data
 
-from evaluation import average_code_compilance, average_bleu, predict_codes, vec_to_words
+from evaluation import average_code_compilance, average_bleu, predict_codes, vec_to_words, input_vec_to_words, pp_results
 
 from model import get_model
 
@@ -79,6 +79,7 @@ for k in range(k_start, EPOCHS + 1):
     auto_encoder.save_weights('/output/checkpoint_epoch_{}.hdf5'.format(k))
 
   expected_codes = vec_to_words(Y_test, test_output_vocab)
+  tasks = input_vec_to_words(X_test, test_input_vocab)
   codes = predict_codes(auto_encoder,
                         X_test,
                         input_dict,
@@ -89,5 +90,5 @@ for k in range(k_start, EPOCHS + 1):
   print('MODEL EVALUATION')
   print(average_bleu(expected_codes, codes))
   print(average_code_compilance(codes))
-  pprint.PrettyPrinter().pprint(codes)
+  pp_results(tasks, codes)
   print('*************************************************')

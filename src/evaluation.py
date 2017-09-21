@@ -6,6 +6,13 @@ from prep import split_to_words
 from prep import word_to_index
 from prep import pad_seq
 
+def input_vec_to_words(X_test, vocab):
+  sentences = []
+  for sentence in X_test:
+    sentences.append(' '.join([vocab[word] for word in sentence[::-1] if word != 0]))
+
+  return sentences
+
 def vec_to_words(predictions, vocab):
   codes = []
   for prediction in predictions:
@@ -63,3 +70,9 @@ def average_code_compilance(codes):
       count += 1
 
   return count / len(codes)
+
+def pp_results(tasks, codes):
+  for i in range(0, len(tasks)):
+    print('*************************************************')
+    print(tasks[i])
+    print(codes[i])

@@ -5,7 +5,7 @@ import numpy as np
 from prep import untar
 from prep import prep_data
 
-from evaluation import predict_codes, vec_to_words, average_bleu, average_code_compilance
+from evaluation import predict_codes, vec_to_words, average_bleu, average_code_compilance, input_vec_to_words, pp_results
 
 from model import get_model
 
@@ -53,6 +53,7 @@ auto_encoder.load_weights(MODEL_WEIGHTS)
 auto_encoder.summary()
 
 expected_codes = vec_to_words(Y_test, test_output_vocab)
+tasks = input_vec_to_words(X_test, test_input_vocab)
 codes = predict_codes(auto_encoder,
                       X_test,
                       input_dict,
@@ -63,5 +64,5 @@ print('*************************************************')
 print('MODEL EVALUATION')
 print(average_bleu(expected_codes, codes))
 print(average_code_compilance(codes))
-pprint.PrettyPrinter().pprint(codes)
+pp_results(tasks, codes)
 print('*************************************************')
