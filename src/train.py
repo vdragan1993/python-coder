@@ -51,6 +51,8 @@ auto_encoder = get_model(len(input_vocab),
                          HIDDEN_SIZE,
                          NUM_LAYERS)
 
+auto_encoder.summary()
+
 k_start = 1
 
 X = np.array(X)

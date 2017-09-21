@@ -50,6 +50,8 @@ auto_encoder = get_model(len(input_vocab),
                          NUM_LAYERS)
 auto_encoder.load_weights(MODEL_WEIGHTS)
 
+auto_encoder.summary()
+
 expected_codes = vec_to_words(Y_test, test_output_vocab)
 codes = predict_codes(auto_encoder,
                       X_test,
